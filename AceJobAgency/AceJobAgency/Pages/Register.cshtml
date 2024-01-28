@@ -1,0 +1,136 @@
+﻿@page
+@model AceJobAgency.Pages.RegisterModel
+@{
+}
+
+<script>
+    function updatePasswdUI(strength) {
+        var progressbar = document.getElementById("progressbar")
+        if (strength == 1) {
+            progressbar.style.width = "25%"
+            document.getElementById("passwdStrength").textContent = "Weak"
+            progressbar.className = "progress-bar bg-danger"
+        } else if (strength == 2) {
+            progressbar.style.width = "50%"
+            progressbar.className = "progress-bar bg-warning"
+            document.getElementById("passwdStrength").textContent = "So-so"
+        } else if (strength == 3) {
+            progressbar.style.width = "75%"
+            document.getElementById("passwdStrength").textContent = "Good"
+            progressbar.className = "progress-bar primary"
+        } else if (strength == 4) {
+            progressbar.style.width = "100%"
+            document.getElementById("passwdStrength").textContent = "Excellent"
+            progressbar.className = "progress-bar bg-success"
+        } else{
+            progressbar.style.width = "0%"
+            document.getElementById("passwdStrength").textContent = "Very Weak"
+            progressbar.className = "progress-bar"
+        }
+    }
+    function validate() {
+        var strength = 0
+        var passwd = document.getElementById("passwd").value;
+        document.getElementById("passwdHelp").textContent = ""
+        if (passwd.length >= 12) {
+            strength++
+        } else {
+            document.getElementById("passwdHelp").textContent += "Password should be at least 12 characters in length.\n"
+        }
+        if (/[a-z]+[A-Z]+/.test(passwd)) {
+            strength++
+        } else {
+            document.getElementById("passwdHelp").textContent += "Password should have a combination of lower-case and upper-case characters.\n"
+        }
+        if (/\d+/.test(passwd)) {
+            strength++
+        } else {
+            document.getElementById("passwdHelp").textContent += "Password should also have numerical characters.\n"
+        }
+        if (/[^a-zA-Z0-9]+/.test(passwd)) {
+            strength++
+        } else {
+            document.getElementById("passwdHelp").textContent += "Password should also have special characters.\n"
+        }
+        updatePasswdUI(strength)
+    }
+
+</script>
+
+<div>
+    <h1>Register</h1>
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.FirstName">First Name</label>
+            <input type="Text" asp-for="RModel.FirstName" class="form-control" />
+            <span asp-validation-for="RModel.FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.LastName">Last Name</label>
+            <input type="Text" asp-for="RModel.LastName" class="form-control" />
+            <span asp-validation-for="RModel.LastName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.Gender">Gender</label>
+            <input type="Text" asp-for="RModel.Gender" class="form-control" />
+            <span asp-validation-for="RModel.Gender" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.NRIC">NRIC</label>
+            <input type="Text" asp-for="RModel.NRIC" class="form-control" />
+            <span asp-validation-for="RModel.NRIC" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.Email">Email Address</label>
+            <input type="Text" asp-for="RModel.Email" class="form-control" />
+            <span asp-validation-for="RModel.Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.Password">Password</label>
+            <input type="password" asp-for="RModel.Password" id="passwd" class="form-control" onkeyup="validate()" onchange="validate()"/>
+            <span asp-validation-for="RModel.Password" class="text-danger"></span>
+            <div class="progress mt-2">
+                <div class="progress-bar" id="progressbar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p id="passwdHelp" class="text-danger w-75" style="white-space: pre-line"></p>
+                <p id="passwdStrength" class="text-nowrap"></p>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.ConfirmPassword">Confirm Password</label>
+            <input type="password" asp-for="RModel.ConfirmPassword" class="form-control" />
+            <span asp-validation-for="RModel.ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.DateOfBirth">Date Of Birth</label>
+            <input type="date" asp-for="RModel.DateOfBirth" class="form-control" />
+            <span asp-validation-for="RModel.DateOfBirth" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.ResumeFile">Resume File</label>
+            <input type="Text" asp-for="RModel.ResumeFile" class="form-control" />
+            <span asp-validation-for="RModel.ResumeFile" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.WhoAmI">Who Am I</label>
+            <input type="Text" asp-for="RModel.WhoAmI" class="form-control" />
+            <span asp-validation-for="RModel.WhoAmI" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+</div>
