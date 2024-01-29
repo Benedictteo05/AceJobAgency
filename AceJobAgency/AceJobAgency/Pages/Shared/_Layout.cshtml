@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using AceJobAgency.Model;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,17 +22,42 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Register">Register</a>
-                        </li>
-                    </ul>
+
+                    @{
+                        if (SignInManager.IsSignedIn(User))
+                        {
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav d-flex justify-content-end gap-2">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/ForgetPassword">Change Password</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-primary" asp-area="" asp-page="/Logout">Logout</a>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav d-flex justify-content-end flex-grow-1 gap-1">
+                                <li class="nav-item">
+                                    <a class="btn btn-primary" asp-page="/Login">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-primary" asp-page="/Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-primary" asp-page="/ResetPasswordEmail">ResetPasswordEmail</a>
+                                </li>
+                            </ul>
+                        }
+                    }
                 </div>
             </div>
         </nav>

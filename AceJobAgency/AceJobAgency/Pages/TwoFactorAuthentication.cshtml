@@ -1,0 +1,20 @@
+﻿@page "/TwoFactorAuthentication/{email}"
+@model AceJobAgency.Pages.TwoFactorAuthenticationModel
+@{
+}
+<div class="container mt-5">
+	<div class="row justify-content-center align-items-center">
+		<div class="col-sm-12 col-md-12 col-lg-4">
+			<form method="post">
+				<div asp-validation-summary="All" class="text-danger"></div>
+				<div class="mb-3">
+					<label class="form-label" asp-for="TwoFactorCode">2FA Code</label>
+					<input type="Text" asp-for="TwoFactorCode" class="form-control" />
+					<span asp-validaton-for="text" class="text-danger"></span>
+				</div>
+
+				<button class="btn btn-primary">Submit 2FA Code</button>
+			</form>
+		</div>
+	</div>
+</div>

@@ -2,6 +2,18 @@
 @model AceJobAgency.Pages.RegisterModel
 @{
 }
+<script src="https://www.google.com/recaptcha/api.js?render=6LeVOWEpAAAAAHMKbppyZMVgFXoqyXKADhYmbemF"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LeVOWEpAAAAAHMKbppyZMVgFXoqyXKADhYmbemF', { action: 'submit' }).then(function (token) {
+            document.getElementById("grecaptchaToken").value = token;
+        });
+    });
+</script>
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 
 <script>
     function updatePasswdUI(strength) {
@@ -22,7 +34,7 @@
             progressbar.style.width = "100%"
             document.getElementById("passwdStrength").textContent = "Excellent"
             progressbar.className = "progress-bar bg-success"
-        } else{
+        } else {
             progressbar.style.width = "0%"
             document.getElementById("passwdStrength").textContent = "Very Weak"
             progressbar.className = "progress-bar"
@@ -59,7 +71,7 @@
 
 <div>
     <h1>Register</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <div class="mb-3">
@@ -94,7 +106,7 @@
 
         <div class="mb-3">
             <label class="form-label" asp-for="RModel.Password">Password</label>
-            <input type="password" asp-for="RModel.Password" id="passwd" class="form-control" onkeyup="validate()" onchange="validate()"/>
+            <input type="password" asp-for="RModel.Password" id="passwd" class="form-control" onkeyup="validate()" onchange="validate()" />
             <span asp-validation-for="RModel.Password" class="text-danger"></span>
             <div class="progress mt-2">
                 <div class="progress-bar" id="progressbar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
@@ -119,7 +131,7 @@
 
         <div class="mb-3">
             <label class="form-label" asp-for="RModel.ResumeFile">Resume File</label>
-            <input type="Text" asp-for="RModel.ResumeFile" class="form-control" />
+            <input type="file" asp-for="RModel.ResumeFile" class="form-control" accept=".pdf, .docx" />
             <span asp-validation-for="RModel.ResumeFile" class="text-danger"></span>
         </div>
 
@@ -128,6 +140,8 @@
             <input type="Text" asp-for="RModel.WhoAmI" class="form-control" />
             <span asp-validation-for="RModel.WhoAmI" class="text-danger"></span>
         </div>
+
+        <input type="hidden" id="grecaptchaToken" name="grecaptchaToken" />
 
         <div class="mb-3">
             <button type="submit" class="btn btn-primary">Register</button>

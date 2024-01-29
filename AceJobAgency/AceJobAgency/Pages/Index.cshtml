@@ -1,10 +1,62 @@
 ﻿@page
+@inject IHttpContextAccessor contxt
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <h1>User Details</h1>
+    <table class="table mt-4 table-bordered">
+        <tbody>
+            <tr>
+                <th>First Name</th>
+                <td>@Model.FirstName</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>Last Name</th>
+                <td>@Model.LastName</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>Gender</th>
+                <td>@Model.Gender</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>NRIC</th>
+                <td>@Model.NRIC</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>Email Address</th>
+                <td>@Model.Email</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>Date Of Birth</th>
+                <td>@Model.DateOfBirth</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>Resume file</th>
+                <td><a href="~/uploads/@Model.ResumeFile" })>Resume File</a> </td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>Who Am I</th>
+                <td>@Model.WhoAmI</td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
