@@ -19,13 +19,15 @@ namespace AceJobAgency.Pages
         private readonly IHttpContextAccessor contxt;
         private ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
-        public LoginModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor, ILogger<LoginModel> logger, IEmailSender emailSender)
+        private readonly AuthDbContext _authDbContext;
+        public LoginModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor, ILogger<LoginModel> logger, IEmailSender emailSender, AuthDbContext authDbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.contxt = httpContextAccessor;
             _logger = logger;
             this._emailSender = emailSender;
+            _authDbContext = authDbContext;
         }
         public void OnGet()
         {
@@ -67,6 +69,13 @@ namespace AceJobAgency.Pages
 						}
                         else
                         {
+                            var auditLog = new AuditLogs()
+                            {
+                                Logs = "User ID: " + user.Email + " Login",
+                                CreatedAt = DateTime.UtcNow,
+                            };
+                            _authDbContext.AuditLogs.Add(auditLog);
+                            _authDbContext.SaveChanges();
                             return RedirectToPage("Index");
                         }
                         //var user = await userManager.GetUserAsync(User);

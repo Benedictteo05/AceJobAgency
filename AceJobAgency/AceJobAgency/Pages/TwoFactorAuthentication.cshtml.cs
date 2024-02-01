@@ -16,11 +16,13 @@ namespace AceJobAgency.Pages
 		private readonly SignInManager<ApplicationUser> signInManager;
 		private readonly UserManager<ApplicationUser> userManager;
 		private readonly ILogger<TwoFactorAuthenticationModel> logger;
-		public TwoFactorAuthenticationModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<TwoFactorAuthenticationModel> logger)
+		private readonly AuthDbContext authDbContext;
+		public TwoFactorAuthenticationModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<TwoFactorAuthenticationModel> logger, AuthDbContext authDbContext)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
 			this.logger = logger;
+			this.authDbContext = authDbContext;
 		}
 
 		public void OnGet(string email)
@@ -58,6 +60,13 @@ namespace AceJobAgency.Pages
 					}
 					else
 					{
+						var auditLog = new AuditLogs()
+						{
+							Logs = "User ID: " + user.Email + " Login",
+                            CreatedAt = DateTime.UtcNow,
+                        };
+						authDbContext.AuditLogs.Add(auditLog);
+						authDbContext.SaveChanges();
 						logger.LogInformation("Redirect");
 						return RedirectToPage("Index");
 					}
